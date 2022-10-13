@@ -1,0 +1,67 @@
+{% load static %}
+
+<header class="header-nav">
+    <div class="logo">
+        <a class="logo-link" href="{% url 'store' %}">
+            <h3>Ecommerce</h3>
+        </a>
+    </div>
+
+    <form class="header__search" method="GET" action="{% url 'store' %}">
+        <label>
+            <input name="q" placeholder="Search for anything" />
+            <button class="btn-search">
+                <img src="{% static 'images/icons/search-icon.png' %}" width="20" height="20">
+            </button>
+        </label>
+    </form>
+    <nav>
+
+        <div class="nav-links">
+            {% if request.user.is_authenticated %}
+            <div class="nav-obj">
+                <div class="dropdown">
+                    <button class="btn-login">{{request.user.username}}</button>
+                    <div class="dropdown-content">
+                        <a href="{% url 'logout' %}">Log out</a>
+                    </div>
+                </div>
+            </div>
+            {% else %}
+            <div class="nav-obj">
+                <button class="btn-login">
+                    <a class="nav-ref" href="{% url 'login' %}">Login</a>
+                </button>
+            </div>
+            {% endif %}
+        </div>
+    </nav>
+    <!-- <div class="nav-obj">
+        <a class="nav-ref" href="#">
+            <button class="btn-fav">
+                <img src="{% static 'images/icons/favorites.png' %}" width="25" height="25">
+            </button>
+        </a>
+    </div> -->
+    <div class="nav-obj">
+        <a class="nav-ref" href="{% url 'cart' %}">
+            <button class="btn-cart">
+                <img src="{% static 'images/icons/cart.png' %}" width="25" height="25">
+                {% if cartItems > 0 %}
+                <p>{{cartItems}}</p>
+                {% endif %}
+            </button>
+        </a>
+    </div>
+</header>
+
+<!-- <header class="header-categories">
+    <div class="nav-links">
+        <div class="nav-obj">
+            <a class="nav-ref category" href="#">Clothes</a>
+            <a class="nav-ref category" href="#">Accessories</a>
+            <a class="nav-ref category" href="#">Shoes</a>
+        </div>
+    </div>
+</header> -->
+

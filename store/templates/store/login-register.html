@@ -1,0 +1,99 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% if page == 'login' %}
+
+<div class="log-reg-page">
+    <p>Login</p>
+
+    {% if messages %}
+    <ul class="messages" style="color: rgb(218, 47, 47);">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form class="log-reg-form" method="POST">
+        {% csrf_token %}
+
+        <div class="form-field log-reg-field">
+            <div>
+                <label>Username</label>
+            </div>
+            <input 
+                class="form-control" 
+                id="username" 
+                name="username" 
+                type="text" 
+                placeholder="E.g. kirill_zelensky" 
+            />
+        </div>
+        <div class="form-field log-reg-field">
+            <div>
+                <label>Password</label>
+            </div>
+            <input
+                class="form-control"
+                id="password"
+                name="password"
+                type="password"
+                placeholder="&bull;&bull;&bull;&bull;&bull;&bull;&bull;&bull;"
+            />
+        </div>
+
+        <div class="log-reg-button">
+            <button class="btn-1" type="submit">Login</button>
+        </div>
+    </form>
+
+    <div class="log-reg-link">
+        <p>Don't have an account yet? <a href="{% url 'register' %}">Register</a></p>
+    </div>
+</div>
+
+{% else %}
+
+<div class="log-reg-page">
+    <p>Register</p>
+
+    {% if messages %}
+    <ul class="messages" style="color: rgb(218, 47, 47);">
+        {% for message in messages %}
+            <li {% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+
+    <form class="log-reg-form" action="" method="POST">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="form-field log-reg-field">
+            <div>
+                <label for="room_name">{{field.label}}</label>
+            </div>
+            <div class="register-field">
+                {{field}}
+            </div>
+        </div>
+        {% endfor %}
+
+        <div class="log-reg-button">
+            <button class="btn-1" type="submit">
+                Register
+            </button>
+        </div>
+    </form>
+
+    <div class="log-reg-link">
+        <p>Have an account already? <a href="{% url 'login' %}">Login</a></p>
+    </div>
+</div>
+
+{% endif %}
+
+
+
+{% endblock content %}

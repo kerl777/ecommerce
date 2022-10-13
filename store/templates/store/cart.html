@@ -1,0 +1,58 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% if cartItems > 0 %}
+    <div class="cart-items-header">
+        <div class="cart-items-quantity">
+            {% if cartItems > 1 %}
+                <p>{{cartItems}} items in your cart</p>
+            {% else %}
+                <p>{{cartItems}} item in your cart</p>
+            {% endif %}
+        </div>
+        <div>
+            <a class="btn-3" href="{% url 'store' %}">Keep Shopping</a>
+        </div>
+    </div>
+
+    <div class="cart-row payment">
+        <p>Cart total: <strong>${{cartTotal}}</strong></p>
+        <div class="checkout-link">
+            <a class="btn-1" href="{% url 'checkout' %}">Checkout</a>
+        </div>
+    </div>
+
+    {% for item in items %}
+        <div class="cart-row">
+            <div style="flex: 2;"><img class="row-image" src="{{item.product.imageURL}}"></div>
+            <div style="flex: 2;">
+                <a class="cart-product-link" href="{% url 'product-page' item.product.id %}">{{item.product.name}}</a>
+                <p>${{item.product.price}}</p>
+            </div>
+            <div style="flex: 1;">
+                <div class="change-quantity">
+                    <a class="btn-2" href="{% url 'add_to_cart' item.product.id %}">+</a>
+                    <p class="quantity-number">{{item.quantity}}</p>
+                    <a class="btn-2" href="{% url 'remove_one_item' item.id %}">-</a>
+                </div>
+            </div>
+            <div style="flex: 1;"><p><strong>${{item.get_total}}</strong></p></div>
+            <div>
+                <a class="btn-2" href="{% url 'remove_all_items' item.id %}">Remove</a>
+            </div>
+        </div>
+    {% endfor %}
+
+
+{% else %}
+    <div class="cart-empty">
+        <p>Your cart is empty.</p>
+    </div>
+    <div class="store-reference">
+        <a href="{% url 'store' %}">Back to shopping.</a>
+    </div>
+{% endif %}
+
+
+{% endblock content %}

@@ -1,0 +1,75 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+{% if cartItems > 0 %}
+<div class="row">
+    <div class="col-lg-6">
+        <div class="box-element">
+            <form class="shipping-form" method="POST">
+                {% csrf_token %}
+                {% if request.user.is_anonymous%}
+                <div class="user-info">
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="name" placeholder="Name..">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="email" name="email" placeholder="Email..">
+                    </div>
+                </div>
+                {% endif %}
+
+                <div class="shipping-info">
+                    <p>Shipping Information:</p>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="address" placeholder="Address..">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="city" placeholder="City..">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="state" placeholder="State..">
+                    </div>
+                    <div class="form-field">
+                        <input class="form-control" type="text" name="zipcode" placeholder="Zip code..">
+                    </div>
+                </div>
+
+                <input class="btn-1 payment-button" type="submit" value="Make Payment">
+            </form>
+        </div>
+    </div>
+
+    <div class="col-lg-6">
+        <div class="box-element order-info">
+            <div class="back-link">
+                <a class="btn-2" href="{% url 'cart' %}">&#x2190; Back to Cart</a>
+                <p>Order Summary</p>
+            </div>
+            <div class="order-total">
+                <p>Items:   {{cartItems}}</p>
+                <p>Total:   ${{cartTotal|floatformat:2}}</p>
+            </div>
+            {% for item in items %}
+            <div class="cart-row">
+                <div style="flex:2"><img class="row-image" src="{{item.product.imageURL}}"></div>
+                <div style="flex:2">
+                    <a class="product-link" href="{% url 'product-page' item.product.id %}">{{item.product.name}}</a>
+                </div>
+                <div style="flex:1"><p>${{item.product.price|floatformat:2}}</p></div>
+                <div style="flex:1"><p>x{{item.quantity}}</p></div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% else %}
+    <div class="cart-empty">
+        <p>Your cart is empty.</p>
+    </div>
+    <div class="store-reference">
+        <a href="{% url 'store' %}">Back to shopping.</a>
+    </div>
+{% endif %}
+
+{% endblock content %}

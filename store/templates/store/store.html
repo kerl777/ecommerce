@@ -1,0 +1,21 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="wrapper">
+    {% for product in products %}
+    <div class="col-lg-4">
+        <div class="box-element product">
+            <img class="thumbnail" src="{{product.imageURL}}">
+            <div class="product-name">
+                <p>{{product.name}}</p>
+            </div>
+            <a class="btn-1" href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
+            <a class="btn-1" href="{% url 'product-page' product.id %}">View</a>
+            <p>${{product.price}}</p>
+        </div>
+    </div>
+    {% endfor %}
+</div>
+
+{% endblock content %}

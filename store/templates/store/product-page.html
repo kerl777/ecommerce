@@ -1,0 +1,57 @@
+{% extends 'main.html' %}
+
+{% block content %}
+
+<div class="product-page">
+    <div class="product-content-1">
+        <img src="{{product.imageURL}}">
+        <div class="product-info">
+            <div class="product-title">
+                <p><strong>{{product.name}}</strong></p>
+            </div>
+            <div class="product-price">
+                ${{product.price}}
+            </div>
+            <div>
+                <a class="btn-1" href="{% url 'add_to_cart' product.id %}">Add to Cart</a>
+            </div>
+        </div>
+    </div>
+    <div class="product-content-2">
+        <div class="product-description">
+            <h3>Description:</h3>
+            <p>{{product.description}}</p>
+        </div>
+    </div>
+
+    <div class="product-reviews">
+        {% if request.user.is_authenticated %}
+        <div>
+            <form class="message-form" method="POST">
+                {% csrf_token %}
+                <input name="body" placeholder="Leave your review here..">
+                <button class="btn-1">Send</button>
+            </form>
+        </div>
+        {% else %}
+        <div class="guest-user-comments">
+            <p>Please <a href="{% url 'login' %}">login</a> if you want to leave a comment.</p>
+        </div>
+        {% endif %}
+        <div class="review-box">
+            {% for review in product_reviews %}
+            <div class="message-content">
+                <div>
+                    <p><strong>{{review.user}}</strong></p>
+                    <p>{{review.body}}</p>
+                </div>
+                <div class="message-created">
+                    <p>{{review.created}}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+{% endblock content %}
